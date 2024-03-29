@@ -1,3 +1,18 @@
+"Created a class named Boggle that implements a class method called search:for:
+Input: The first argument to this method will be the game board, represented as a static
+array of arrays whose elements are characters. For example, the 2x2 example above would
+be represented as #(#($e $a) #($s $t))
+The second argument will be an array of strings representing the list of legal words, e.g.
+#(‘word1’ ‘word2’ ‘word3’ ... ) and so on.
+Output: search:for: method will return a dictionary. The keys will be the words that
+have been found, and the value at each key will be an array of points. Each point corresponds to the 2D index of
+the corresponding character in the game board.
+For example, the word ‘seat’ would be represented by the
+following dictionary entry: ‘seat’->{(2@1).(1@1).(1@2).(2@2)}
+
+Create an image using pharo launcher and implement this method in class named Boggle"
+
+
 search: board for: words
 | dictionary rowIndex columnIndex found arrayOfPoints previ prevj nexti nextj continue|
 
