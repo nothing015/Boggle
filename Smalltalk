@@ -1,0 +1,89 @@
+search: board for: words
+| dictionary rowIndex columnIndex found arrayOfPoints previ prevj nexti nextj continue|
+
+
+dictionary := Dictionary new.
+
+words do: [ :word |
+	 (word size) <= (board size * board size) ifTrue:[
+    found := true.
+    arrayOfPoints := OrderedCollection new.
+    
+    "Check if the board contains the first letter of the word"
+     (board anySatisfy: [:row | row includes: (word first)])
+        ifTrue: [
+	         "Second letter if it exists"
+	         "continue := true."
+            (word size) > 1 ifTrue: [
+            1 to: board size do: [ :i |
+                1 to: (board at: i) size do: [ :j |
+                    (((board at: i) at: j) == (word second) "and: (continue == true)") ifTrue: [
+	                     "continue := false."
+                        nexti := i.
+                        nextj := j.
+                    ]
+                ]
+            ].
+            "First letter of word more than size 1"
+            continue := true.
+            1 to: board size do: [ :i |
+                1 to: (board at: i) size do: [ :j |
+                    (((board at: i) at: j) == (word first) and: (continue == true)) ifTrue: [
+	(((((nexti == (i - 1) or: nexti == (i + 1)) or: nexti == i)) and: ((nextj == (j - 1) or: nextj == (j + 1)) or: nextj ==j)) and: ((arrayOfPoints includes: i@j) not))                        ifTrue: [ 
+		                  continue := false.
+                        rowIndex := i.
+                        columnIndex := j.
+                        previ := i.
+                        prevj := j.
+                        arrayOfPoints add: (rowIndex @ columnIndex)].
+                    ]
+                ]
+            ]].
+            "Word consists of only  End of statement expected ->1 letter"
+            (word size) == 1 ifTrue:[
+            1 to: board size do: [ :i |
+                1 to: (board at: i) size do: [ :j |
+                    ((board at: i) at: j) = (word first) ifTrue: [
+                        rowIndex := i.
+                        columnIndex := j.
+                        previ := i.
+                        prevj := j.
+                        arrayOfPoints add: (rowIndex @ columnIndex).
+                        dictionary at: word put: (arrayOfPoints asArray).
+                    ]
+                ]
+            ]].
+
+
+            
+            2 to: word size do: [ :n |
+                (board anySatisfy: [:row | row includes: (word at: n)])
+                    ifTrue: [
+	                     |added|
+	                     added := false.
+                        1 to: board size do: [ :i |
+                            1 to: (board at: i) size do: [ :j |
+                                ((((board at: i) at: j) == (word at: n)) and: (added == false)) ifTrue: [
+	     (((((previ == (i - 1) or: previ == (i + 1)) or: previ == i)) and: ((prevj == (j - 1) or: prevj == (j + 1)) or: prevj ==j)) and: ((arrayOfPoints includes: i@j) not)) 
+                                  ifTrue: [ 
+	                                 arrayOfPoints add: (i @ j).
+                                    added := true.
+                                    previ := i.
+                                    prevj := j.]
+                                    
+                                ]
+                            ]
+                        ]
+                    ]
+                    ifFalse: [ found := false ]
+            ]
+        ]
+        ifFalse: [ found := false ].
+
+    found ifTrue: [ 
+	   (word size) == (arrayOfPoints size) ifTrue: [
+	   dictionary at: word put: (arrayOfPoints asArray) ]].
+]].
+
+	^ dictionary.
+	
