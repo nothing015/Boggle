@@ -1,3 +1,5 @@
-Elixir: The source files are in the 'lib' directories
+Elixir: Source file is in the 'lib' subdirectory inside the 'Boggle' directory
 
 Smalltalk: Source file is in text version, not in pharo image
+
+Rust: Source file is in the 'src' subdirectory inside the 'Boggle Rust' directory
